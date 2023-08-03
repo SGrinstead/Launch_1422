@@ -55,5 +55,28 @@ namespace CaddyShackMVC.Controllers
 
 			return Redirect($"/golfbags/{bag.Id}");
 		}
+
+		[Route("/golfbags/{id:int}/edit")]
+		public IActionResult Edit(int id)
+		{
+			var bag = _context.GolfBags.Find(id);
+			return View(bag);
+		}
+
+		[HttpPost]
+		[Route("/golfbags/{bagId:int}/update")]
+		public IActionResult Update(int bagId, Club club)
+		{
+			var bag = _context.GolfBags
+				.Where(b => b.Id == bagId)
+				.Include(b => b.Clubs)
+				.FirstOrDefault();	
+		
+			bag.Clubs.Add(club);
+			_context.GolfBags.Update(bag);
+			_context.SaveChanges();
+
+			return Redirect($"/golfbags/{bag.Id}");
+		}
 	}
 }
