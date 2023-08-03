@@ -17,10 +17,24 @@ namespace CaddyShackTests
 		}
 
 		[Fact]
-        public void Test1()
+        public async void Index_ReturnsViewOfAllBags()
         {
+			var context = GetDbContext();
+			var client = _factory.CreateClient();
 
-        }
+			var bag1 = new GolfBag { Player = "Ricky Fowler", Capacity = 11 };
+			var bag2 = new GolfBag { Player = "Tiger Woods", Capacity = 2 };
+
+			context.GolfBags.Add(bag1);
+			context.GolfBags.Add(bag2);
+
+			var response = await client.GetAsync("/golfbags");
+			var html = await response.Content.ReadAsStringAsync();
+
+			response.EnsureSuccessStatusCode();
+			Assert.Contains("Ricky Fowler", html);
+			Assert.Contains("Tiget Woods", html);
+		}
 
 		private CaddyShackContext GetDbContext()
 		{
