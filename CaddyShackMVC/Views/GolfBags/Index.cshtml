@@ -1,0 +1,15 @@
+﻿@model List<GolfBag>
+
+<h1>All GolfBags</h1>
+
+@foreach(var bag in Model)
+{
+	<p>Id: <a href="/golfbags/@bag.Id">@bag.Id</a>, Player: @bag.Player, Capacity: @bag.Capacity</p>
+
+	<form method="post" action="/golfbags/delete/@bag.Id">
+		<button type="submit">Delete Bag</button>
+	</form>
+	<br />
+}
+
+<a href="/golfbags/new">Add a New Bag</a>

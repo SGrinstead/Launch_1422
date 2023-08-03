@@ -1,0 +1,11 @@
+﻿@model GolfBag
+
+<h1>@Model.Player's Golf Bag</h1>
+
+<p>Bag Id: @Model.Id, Capacity: @Model.Capacity</p>
+
+<h3>Clubs:</h3>
+@foreach(var club in Model.Clubs)
+{
+	<p>@club.Name</p>
+}
